@@ -1,46 +1,115 @@
-# Getting Started with Create React App
+# Configure initial for projects with React, Typescript, ESLint
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Create React App with Typescript
 
-## Available Scripts
+`npx create-react-app my-app --template typescript`
 
-In the project directory, you can run:
+## Install ESLint and Jest support
 
-### `yarn start`
+ESLint is installed with create-react-app
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+`yarn add -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-airbnb-typescript@6.3.2 eslint-plugin-jest eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react-hooks eslint-plugin-react`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Install the packages for Airbnb config
 
-### `yarn test`
+`npx install-peerdeps --dev eslint-config-airbnb`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Install Prettier
 
-### `yarn build`
+`yarn add -D prettier eslint-config-prettier eslint-plugin-prettier prettier-eslint prettier-eslint-cli`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Create ESLint config file
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+In root of project create file **.eslintrc** and add the following rules (custom)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```json
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "@typescript-eslint", "jest"],
+  "extends": [
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
+    "prettier",
+    "prettier/react",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "react/prop-types": "off",
+    "no-var": "error",
+    "linebreak-style": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": true,
+        "variables": true,
+        "typedefs": true
+      }
+    ],
+    "class-methods-use-this": "off",
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "import/prefer-default-export": "off",
+    "no-debugger": "warn",
+    "@typescript-eslint/no-shadow": "off",
+    "@typescript-eslint/lines-between-class-members": ["off"],
+    "no-param-reassign": "off",
+    "jsx-a11y/interactive-supports-focus": "off",
+    "jsx-a11y/click-events-have-key-events": "off"
+  }
+}
+```
 
-### `yarn eject`
+## Create file ESLint ignore
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Create **.eslintignore** file in the root of project with the following content:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```txt
+build/*
+node_modules/*
+public/*
+docs/*
+templates/*
+src/react-app-env.d.ts
+src/serviceWorker.ts
+```
